@@ -1,0 +1,46 @@
+title: Typosquatting detection for microsoftonline.com domain
+id: f7g8h9i0-j1k2-3456-fghi-678901234569
+status: experimental
+description: Detects DNS queries to typosquatted domains mimicking microsoftonline.com
+author: Llopis - Cyberg Academy
+date: 2025/07/26
+references:
+   - https://cyberg-academy.io/tpost/elfl1agvi1-hunting-gophish-amp-evilginx-poc-ataque
+tags:
+   - attack.initial_access
+   - attack.t1566.002
+logsource:
+   category: dns
+detection:
+   selection1:
+       # Comprehensive character substitutions and transpositions
+       query|re: '.*m[i1l]{1,3}[ck]?r?[o0]{0,2}[s5z]{1,2}[ro0]{0,2}[s5z]?[o0]{0,2}[ft]{1,2}[t]?[o0]{1,3}nl?[i1l]{1,3}n?[e3]{1,2}\..*'
+   selection2:
+       # Multiple character repetitions and omissions
+       query|re: '.*m[i1l]{1,3}[ck]?[ro0]{0,2}s[o0]{0,2}[ft]{1,2}[t]?[-_]?[o0]{1,3}n?l[i1l]{1,3}n[e3]{1,2}\..*'
+   selection3:
+       # Transposed characters (micsro, micorsoft, etc.)
+       query|re: '.*mi[ck]?[s5z]?r[o0]{0,2}s[o0]{0,2}[ft]{1,2}[t]?[o0]{1,3}nl?[i1l]{1,3}n[e3]{1,2}\..*'
+   selection4:
+       # Number substitutions (m11crosoft, 0nline, etc.)
+       query|re: '.*m[i1l]{1,3}[1-9]{0,2}[ck]?r?[o0]{0,3}[s5z]{0,2}[o0]{0,2}[ft]{1,2}[t0-9]?[o0]{1,3}n?l?[i1l]{1,3}n?[e3]{1,3}\..*'
+   selection5:
+       # Special character insertions and complex substitutions
+       query|re: '.*m[i1l]{1,3}[ick]{0,2}r?[o05]{0,3}[s5z]{0,2}[o05]{0,3}[ft]{1,2}[t]?[-_]?[o05]{1,4}n?l?[i1l]{1,3}n?[e35]{1,3}\..*'
+   selection6:
+       # Homoglyph and visual similarity attacks
+       query|re: '.*m[íìî1l]{1,3}cr[óò0]{0,2}s[óò0]{0,2}ft[óò05]{1,3}nl[íìî1l]{1,3}n[éè3]{1,2}\..*'
+   selection7:
+       # Double letters and common typos
+       query|re: '.*m[i1]{1,3}[ck]{0,2}rr?[o0]{0,3}ss?[o0]{0,2}ff?tt?[o0]{1,4}nn?ll?[i1]{1,3}nn?[e3]{1,3}\..*'
+   selection8:
+       # Mixed case variations with numbers
+       query|re: '.*[Mm][i1I]{1,3}[cCkK]?[rR]?[o0O]{0,3}[sS5zZ$]{0,2}[o0O]{0,2}[fF][tT]{1,2}[o0O5]{1,4}[nN]?[lL]?[i1Il]{1,3}[nN]?[e3E]{1,3}\..*'
+   filter:
+       query|endswith: 'microsoftonline.com'
+   condition: (1 of selection*) and not filter
+falsepositives:
+   - Legitimate microsoftonline.com subdomains
+   - CDN or proxy services for Microsoft
+   - Internal applications with similar naming
+level: high

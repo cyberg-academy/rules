@@ -1,0 +1,66 @@
+# DNS Rules - Typosquatted microsoftonline.com domain detection
+# Comprehensive character substitutions and transpositions
+alert dns any any -> any any (msg:"PHISHING DNS - Typosquatted microsoftonline.com - Comprehensive substitutions"; dns.query; pcre:"/.*m[i1l]{1,3}[ck]?r?[o0]{0,2}[s5z]{1,2}[ro0]{0,2}[s5z]?[o0]{0,2}[ft]{1,2}[t]?[o0]{1,3}nl?[i1l]{1,3}n?[e3]{1,2}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001010; rev:1;)
+
+# Multiple character repetitions and omissions
+alert dns any any -> any any (msg:"PHISHING DNS - Typosquatted microsoftonline.com - Character repetitions"; dns.query; pcre:"/.*m[i1l]{1,3}[ck]?[ro0]{0,2}s[o0]{0,2}[ft]{1,2}[t]?[-_]?[o0]{1,3}n?l[i1l]{1,3}n[e3]{1,2}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001011; rev:1;)
+
+# Transposed characters (micsro, micorsoft, etc.)
+alert dns any any -> any any (msg:"PHISHING DNS - Typosquatted microsoftonline.com - Transposed chars"; dns.query; pcre:"/.*mi[ck]?[s5z]?r[o0]{0,2}s[o0]{0,2}[ft]{1,2}[t]?[o0]{1,3}nl?[i1l]{1,3}n[e3]{1,2}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001012; rev:1;)
+
+# Number substitutions (m11crosoft, 0nline, etc.)
+alert dns any any -> any any (msg:"PHISHING DNS - Typosquatted microsoftonline.com - Number substitutions"; dns.query; pcre:"/.*m[i1l]{1,3}[1-9]{0,2}[ck]?r?[o0]{0,3}[s5z]{0,2}[o0]{0,2}[ft]{1,2}[t0-9]?[o0]{1,3}n?l?[i1l]{1,3}n?[e3]{1,3}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001013; rev:1;)
+
+# Special character insertions and complex substitutions
+alert dns any any -> any any (msg:"PHISHING DNS - Typosquatted microsoftonline.com - Special chars"; dns.query; pcre:"/.*m[i1l]{1,3}[ick]{0,2}r?[o05]{0,3}[s5z]{0,2}[o05]{0,3}[ft]{1,2}[t]?[-_]?[o05]{1,4}n?l?[i1l]{1,3}n?[e35]{1,3}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001014; rev:1;)
+
+# Homoglyph and visual similarity attacks
+alert dns any any -> any any (msg:"PHISHING DNS - Typosquatted microsoftonline.com - Homoglyph attacks"; dns.query; pcre:"/.*m[íìî1l]{1,3}cr[óò0]{0,2}s[óò0]{0,2}ft[óò05]{1,3}nl[íìî1l]{1,3}n[éè3]{1,2}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001015; rev:1;)
+
+# Double letters and common typos
+alert dns any any -> any any (msg:"PHISHING DNS - Typosquatted microsoftonline.com - Double letters"; dns.query; pcre:"/.*m[i1]{1,3}[ck]{0,2}rr?[o0]{0,3}ss?[o0]{0,2}ff?tt?[o0]{1,4}nn?ll?[i1]{1,3}nn?[e3]{1,3}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001016; rev:1;)
+
+# Mixed case variations with numbers
+alert dns any any -> any any (msg:"PHISHING DNS - Typosquatted microsoftonline.com - Mixed case"; dns.query; pcre:"/.*[Mm][i1I]{1,3}[cCkK]?[rR]?[o0O]{0,3}[sS5zZ$]{0,2}[o0O]{0,2}[fF][tT]{1,2}[o0O5]{1,4}[nN]?[lL]?[i1Il]{1,3}[nN]?[e3E]{1,3}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001017; rev:1;)
+
+# HTTP Rules - Typosquatted microsoftonline.com domain detection
+# Comprehensive character substitutions and transpositions
+alert http any any -> any any (msg:"PHISHING HTTP - Typosquatted microsoftonline.com - Comprehensive substitutions"; http.host; pcre:"/.*m[i1l]{1,3}[ck]?r?[o0]{0,2}[s5z]{1,2}[ro0]{0,2}[s5z]?[o0]{0,2}[ft]{1,2}[t]?[o0]{1,3}nl?[i1l]{1,3}n?[e3]{1,2}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001018; rev:1;)
+
+# Multiple character repetitions and omissions
+alert http any any -> any any (msg:"PHISHING HTTP - Typosquatted microsoftonline.com - Character repetitions"; http.host; pcre:"/.*m[i1l]{1,3}[ck]?[ro0]{0,2}s[o0]{0,2}[ft]{1,2}[t]?[-_]?[o0]{1,3}n?l[i1l]{1,3}n[e3]{1,2}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001019; rev:1;)
+
+# Transposed characters (micsro, micorsoft, etc.)
+alert http any any -> any any (msg:"PHISHING HTTP - Typosquatted microsoftonline.com - Transposed chars"; http.host; pcre:"/.*mi[ck]?[s5z]?r[o0]{0,2}s[o0]{0,2}[ft]{1,2}[t]?[o0]{1,3}nl?[i1l]{1,3}n[e3]{1,2}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001020; rev:1;)
+
+# Number substitutions (m11crosoft, 0nline, etc.)
+alert http any any -> any any (msg:"PHISHING HTTP - Tyrosquatted microsoftonline.com - Number substitutions"; http.host; pcre:"/.*m[i1l]{1,3}[1-9]{0,2}[ck]?r?[o0]{0,3}[s5z]{0,2}[o0]{0,2}[ft]{1,2}[t0-9]?[o0]{1,3}n?l?[i1l]{1,3}n?[e3]{1,3}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001021; rev:1;)
+
+# Special character insertions and complex substitutions
+alert http any any -> any any (msg:"PHISHING HTTP - Typosquatted microsoftonline.com - Special chars"; http.host; pcre:"/.*m[i1l]{1,3}[ick]{0,2}r?[o05]{0,3}[s5z]{0,2}[o05]{0,3}[ft]{1,2}[t]?[-_]?[o05]{1,4}n?l?[i1l]{1,3}n?[e35]{1,3}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001022; rev:1;)
+
+# Homoglyph and visual similarity attacks
+alert http any any -> any any (msg:"PHISHING HTTP - Typosquatted microsoftonline.com - Homoglyph attacks"; http.host; pcre:"/.*m[íìî1l]{1,3}cr[óò0]{0,2}s[óò0]{0,2}ft[óò05]{1,3}nl[íìî1l]{1,3}n[éè3]{1,2}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001023; rev:1;)
+
+# Double letters and common typos
+alert http any any -> any any (msg:"PHISHING HTTP - Typosquatted microsoftonline.com - Double letters"; http.host; pcre:"/.*m[i1]{1,3}[ck]{0,2}rr?[o0]{0,3}ss?[o0]{0,2}ff?tt?[o0]{1,4}nn?ll?[i1]{1,3}nn?[e3]{1,3}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001024; rev:1;)
+
+# Mixed case variations with numbers
+alert http any any -> any any (msg:"PHISHING HTTP - Typosquatted microsoftonline.com - Mixed case"; http.host; pcre:"/.*[Mm][i1I]{1,3}[cCkK]?[rR]?[o0O]{0,3}[sS5zZ$]{0,2}[o0O]{0,2}[fF][tT]{1,2}[o0O5]{1,4}[nN]?[lL]?[i1Il]{1,3}[nN]?[e3E]{1,3}\..*/i"; pcre:!"/.*microsoftonline\.com$/i"; classtype:trojan-activity; sid:2001025; rev:1;)
+
+
+# Evilginx default patterns
+alert http any any -> any any (msg:"MALWARE Evilginx Phishing Framework Login Page Detection"; flow:established,to_client; http.response_body; content:"<title>Evilginx"; content:"Login</title>"; nocase; sid:2001026; rev:1; metadata: mitre_ttp t1566.002, tool evilginx, severity high, confidence high;)
+
+alert http any any -> any any (msg:"MALWARE Evilginx Phishing Framework GitHub Repository Reference"; flow:established,to_client; http.response_body; content:"/kgretzky/evilginx2/"; nocase; sid:2001027; rev:1; metadata: mitre_ttp t1566.002, tool evilginx, severity medium, confidence medium;)
+
+alert http any any -> any any (msg:"WEB_SERVER HTTP 302 redirection to YouTube Rick Astley"; flow:established,from_server; http.stat_code; content:"302"; http.location; content:"youtube.com/watch?v=dQw4w9WgXcQ"; nocase; sid:2001028; rev:1; metadata: mitre_ttp t1566.002, tool evilginx, severity low, confidence low;)
+
+alert http any any -> any any (msg:"WEB_SERVER redirection content to YouTube Rick Astley - possible Evilginx"; flow:established,from_server; http.response_body; content:"<script>top.location.href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'"; nocase; sid:2001029; rev:1; metadata: mitre_ttp t1566.002, tool evilginx, severity high, confidence high;)
+
+alert http any any -> any any (msg:"PHISHING HTTP - Possible Default Evilginx Lure"; flow:established,to_server; http.host; pcre:"/^(login|adfs|secure|account|verify)\..*/i"; http.uri; pcre:"/^\/[a-zA-Z]{8}$/"; classtype:trojan-activity; sid:2001031; rev:1; metadata: mitre_ttp t1566.002, tool evilginx, severity high, confidence high;)
+
+# Gophish default patterns
+alert http any any -> any any (msg:"MALWARE GoPhish Phishing Framework Login Page Detection"; flow:established,to_client; http.response_body; content:"<title>Gophish - Login</title>"; nocase; sid:2001030; rev:1; metadata: mitre_ttp t1566.002, tool evilginx, severity high, confidence high;)
+
+
