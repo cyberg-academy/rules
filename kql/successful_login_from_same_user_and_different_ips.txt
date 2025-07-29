@@ -1,0 +1,57 @@
+// KQL Detection Rule: Successful logins from same user across different public IP addresses
+// This rule detects when a user successfully logs in from multiple different public IP addresses
+// within a specified time window (default: 1 hour)
+
+let timeframe = 1h;
+let min_unique_ips = 2; // Minimum number of unique public IPs to trigger alert
+SigninLogs
+| where TimeGenerated >= ago(timeframe)
+| where Category == "SignInLogs"
+| where ResultSignature == "SUCCESS"
+| where isnotempty(IPAddress)
+| where isnotempty(UserPrincipalName)
+// Filter for public IP addresses (exclude private/internal ranges)
+| where not(ipv4_is_private(IPAddress))
+| where not(IPAddress startswith "127.")
+| where not(IPAddress == "::1")
+// Group by user and count unique public IP addresses
+| summarize 
+    UniquePublicIPs = dcount(IPAddress),
+    IPAddresses = make_set(IPAddress),
+    ClientAppsUsed = make_set(ClientAppUsed),
+    Locations = make_set(Location),
+    FirstSeen = min(TimeGenerated),
+    LastSeen = max(TimeGenerated),
+    LogonCount = count()
+    by UserPrincipalName
+// Filter for users with logins from multiple public IPs
+| where UniquePublicIPs >= min_unique_ips
+// Calculate time span between first and last login
+| extend TimeSpan = LastSeen - FirstSeen
+// Sort by number of unique IPs (highest risk first)
+| sort by UniquePublicIPs desc, LogonCount desc
+// Add additional context for analysis
+| extend 
+    RiskScore = case(
+        UniquePublicIPs >= 5, "High",
+        UniquePublicIPs >= 3, "Medium", 
+        "Low"
+    ),
+    PossibleThreatActivity = case(
+        TimeSpan <= 5m, "Potential Account Compromise - Very Fast Geographic Movement",
+        TimeSpan <= 30m, "Potential Account Compromise - Fast Geographic Movement",
+        TimeSpan <= 2h, "Suspicious Activity - Multiple Locations",
+        "Moderate Risk - Extended Time Window"
+    )
+| project 
+    UserPrincipalName,
+    UniquePublicIPs,
+    IPAddresses,
+    ClientAppsUsed,
+    Locations,
+    FirstSeen,
+    LastSeen,
+    TimeSpan,
+    LogonCount,
+    RiskScore,
+    PossibleThreatActivity
