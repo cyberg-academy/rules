@@ -1,3 +1,4 @@
+// Reference: https://cyberg-academy.io/tpost/2l61bh8eu1-hunting-gophish-amp-evilginx-deteccin-y
 // KQL Detection Rule: Successful logins from same user across different public IP addresses
 // This rule detects when a user successfully logs in from multiple different public IP addresses
 // within a specified time window (default: 1 hour)

@@ -5,7 +5,7 @@ description: Detects DNS queries to typosquatted domains mimicking microsoftonli
 author: Llopis - Cyberg Academy
 date: 2025/07/26
 references:
-   - https://cyberg-academy.io/tpost/elfl1agvi1-hunting-gophish-amp-evilginx-poc-ataque
+   - https://cyberg-academy.io/tpost/2l61bh8eu1-hunting-gophish-amp-evilginx-deteccin-y
 tags:
    - attack.initial_access
    - attack.t1566.002
